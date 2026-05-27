@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Student Directory</p>
+                <h1>Manage student records with clarity.</h1>
+                <p class="hero-copy">Create, edit, validate, and organize student profiles from one clean dashboard.</p>
+            </div>
+            <a class="primary-button" th:href="@{/students/new}">Add Student</a>
+        </section>
+
+        <div class="alert success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+        <section class="content-panel">
+            <div class="panel-heading">
+                <div>
+                    <h2>All Students</h2>
+                    <p th:text="${#lists.size(students)} + ' record(s)'">0 record(s)</p>
+                </div>
+            </div>
+
+            <div class="empty-state" th:if="${#lists.isEmpty(students)}">
+                <h3>No students yet</h3>
+                <p>Add your first student to start building the directory.</p>
+                <a class="secondary-button" th:href="@{/students/new}">Create Student</a>
+            </div>
+
+            <div class="table-wrap" th:unless="${#lists.isEmpty(students)}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Age</th>
+                            <th>Phone</th>
+                            <th class="actions-column">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="student : ${students}">
+                            <td data-label="Name">
+                                <span class="student-name" th:text="${student.name}">Student Name</span>
+                            </td>
+                            <td data-label="Email" th:text="${student.email}">mail@example.com</td>
+                            <td data-label="Course">
+                                <span class="course-pill" th:text="${student.course}">Course</span>
+                            </td>
+                            <td data-label="Age" th:text="${student.age}">21</td>
+                            <td data-label="Phone" th:text="${student.phone}">9876543210</td>
+                            <td data-label="Actions" class="row-actions">
+                                <a class="icon-button edit" th:href="@{/students/{id}/edit(id=${student.id})}">Edit</a>
+                                <form th:action="@{/students/{id}/delete(id=${student.id})}" method="post">
+                                    <button class="icon-button danger" type="submit" onclick="return confirm('Delete this student?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

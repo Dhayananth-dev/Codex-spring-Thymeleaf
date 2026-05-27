@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Student Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <main class="page-shell narrow">
+        <section class="form-hero">
+            <a class="back-link" th:href="@{/students}">Back to Students</a>
+            <h1 th:text="${pageTitle}">Add Student</h1>
+            <p>Keep every profile accurate with validation before it reaches the database.</p>
+        </section>
+
+        <section class="form-panel">
+            <form th:action="@{/students}" th:object="${student}" method="post" novalidate>
+                <input type="hidden" th:field="*{id}">
+
+                <div class="field-grid">
+                    <label>
+                        <span>Name</span>
+                        <input type="text" th:field="*{name}" placeholder="Example: Priya Kumar">
+                        <small class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                    </label>
+
+                    <label>
+                        <span>Email</span>
+                        <input type="email" th:field="*{email}" placeholder="student@example.com">
+                        <small class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                    </label>
+
+                    <label>
+                        <span>Course</span>
+                        <input type="text" th:field="*{course}" placeholder="Computer Science">
+                        <small class="field-error" th:if="${#fields.hasErrors('course')}" th:errors="*{course}"></small>
+                    </label>
+
+                    <label>
+                        <span>Age</span>
+                        <input type="number" th:field="*{age}" min="16" max="80" placeholder="21">
+                        <small class="field-error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></small>
+                    </label>
+
+                    <label class="full-width">
+                        <span>Phone</span>
+                        <input type="tel" th:field="*{phone}" placeholder="9876543210">
+                        <small class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></small>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <a class="secondary-button" th:href="@{/students}">Cancel</a>
+                    <button class="primary-button" type="submit">Save Student</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
